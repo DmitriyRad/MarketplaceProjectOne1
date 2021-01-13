@@ -24,7 +24,7 @@ private List<Map<String, String>> messagesList = new ArrayList<>() {{
     public List<Map<String, String>> list () {
     return messagesList;
     }
-
+    // Получить сообщение по полученному id
     @GetMapping("{id}")
     public Map<String, String> getOneMessage(@PathVariable String id) {
                 return messagesList.stream().filter(messagesList -> messagesList.get("id").equals(id)).findFirst().orElseThrow(NotFoundException::new);
