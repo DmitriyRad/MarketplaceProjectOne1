@@ -1,10 +1,14 @@
 package com.example1.MarketplaceProjectOne.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table
@@ -13,8 +17,14 @@ import javax.persistence.*;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.IdName.class)
     private Long id;
+    @JsonView(Views.IdName.class)
     private String text;
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonView(Views.FullMessage.class)
+    private Date creationMessageDate;
 
     public Long getId() {
         return id;
@@ -30,5 +40,13 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Date getCreationMessageDate() {
+        return creationMessageDate;
+    }
+
+    public void setCreationMessageDate(Date creationMessageDate) {
+        this.creationMessageDate = creationMessageDate;
     }
 }

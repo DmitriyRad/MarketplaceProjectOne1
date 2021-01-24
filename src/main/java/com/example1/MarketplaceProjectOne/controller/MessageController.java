@@ -3,16 +3,15 @@ package com.example1.MarketplaceProjectOne.controller;
 
 import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.example1.MarketplaceProjectOne.domain.Message;
+import com.example1.MarketplaceProjectOne.domain.Views;
 import com.example1.MarketplaceProjectOne.exceptions.NotFoundException;
 import com.example1.MarketplaceProjectOne.repo.MessageRepo;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://vueproject")
@@ -27,6 +26,7 @@ public class MessageController {
 
     // @CrossOrigin(origins = "http://vueproject")
     @GetMapping
+    @JsonView(Views.IdName.class)
     public List<Message> list () {
     return messageRepo.findAll();
     }
@@ -42,6 +42,7 @@ public class MessageController {
     //@CrossOrigin(origins = "http://vueproject")
     @PostMapping
     public Message create(@RequestBody Message message) {
+        message.setCreationMessageDate(new Date());
         return messageRepo.save(message);
     }
 
