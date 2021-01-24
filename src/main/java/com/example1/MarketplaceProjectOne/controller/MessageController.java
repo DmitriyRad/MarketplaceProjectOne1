@@ -1,7 +1,12 @@
 package com.example1.MarketplaceProjectOne.controller;
 
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import com.example1.MarketplaceProjectOne.domain.Message;
 import com.example1.MarketplaceProjectOne.exceptions.NotFoundException;
+import com.example1.MarketplaceProjectOne.repo.MessageRepo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,44 +15,46 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://vueproject")
 @RequestMapping("message")
 public class MessageController {
-    private long counter = 4;
-private List<Map<String, String>> messagesList = new ArrayList<>() {{
-    add(new HashMap<String, String>() {{put("id", "1"); put("text", "First message");}});
-    add(new HashMap<String, String>() {{put("id", "2"); put("text", "Second message");}});
-    add(new HashMap<String, String>() {{put("id", "3"); put("text", "Third message");}});
-}
-};
+    private MessageRepo messageRepo;
 
-    @GetMapping
-    public List<Map<String, String>> list () {
-    return messagesList;
+    @Autowired
+    public MessageController(MessageRepo messageRepo) {
+        this.messageRepo = messageRepo;
     }
+
+    // @CrossOrigin(origins = "http://vueproject")
+    @GetMapping
+    public List<Message> list () {
+    return messageRepo.findAll();
+    }
+
+
     // Получить сообщение по полученному id
     @GetMapping("{id}")
-    public Map<String, String> getOneMessage(@PathVariable String id) {
-                return messagesList.stream().filter(messagesList -> messagesList.get("id").equals(id)).findFirst().orElseThrow(NotFoundException::new);
-    }
-
-    @PostMapping
-    public Map<String, String> create(@RequestBody Map<String, String> message) {
-        message.put("id", String.valueOf(counter++));
-        messagesList.add(message);
+    public Message getOneMessage(@PathVariable("id") Message message) {
         return message;
     }
 
+
+    //@CrossOrigin(origins = "http://vueproject")
+    @PostMapping
+    public Message create(@RequestBody Message message) {
+        return messageRepo.save(message);
+    }
+
     @PutMapping("{id}")
-    public Map<String, String> update(@PathVariable String id, @RequestBody Map<String, String> message) {
-        Map<String, String> messageFromDB = getOneMessage(id);
-        messageFromDB.putAll(message);
-        messageFromDB.put("id", id);
-        return messageFromDB;
+    public Message update(@PathVariable("id") Message messageFromDb,
+                                      @RequestBody Message message) {
+        BeanUtils.copyProperties(message, messageFromDb, "id");
+        return messageRepo.save(messageFromDb);
     }
     @DeleteMapping ("{id}")
-    public void delete(@PathVariable String id){
-        Map<String, String> message = getOneMessage(id);
-        messagesList.remove(message);
+    public void delete(@PathVariable("id") Message message){
+
+      messageRepo.delete(message);
 
     }
 
