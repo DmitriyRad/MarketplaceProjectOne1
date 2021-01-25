@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins = "http://vueproject")
+@CrossOrigin(origins = "http://localhost", maxAge = 3600)
+
 @RequestMapping("message")
 public class MessageController {
     private MessageRepo messageRepo;
