@@ -78,7 +78,19 @@
 			<version>2.1.9.RELEASE</version>
 		</dependency>
 
+		<!--Add templates Thymeleaf  -->
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<!-- Add JDBC SESSION -->
+
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-jdbc</artifactId>
+		</dependency>
 
 
 	</dependencies>

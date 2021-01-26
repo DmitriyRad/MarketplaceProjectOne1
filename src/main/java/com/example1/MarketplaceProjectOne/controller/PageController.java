@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.PublicKey;
 
 @RestController
-@CrossOrigin(origins = "http://localhost", maxAge = 3600)
-@RequestMapping("/")
+//@CrossOrigin(origins = "http://localhost", maxAge = 3600)
+//@RequestMapping("/")
 
 public class PageController {
 
-    @GetMapping("/")
-    public String home() {
-        return "Hello Word!";
-    }
+//    @GetMapping("/")
+//    public String home() {
+//        return "index.html";
+//    }
 
 
 
