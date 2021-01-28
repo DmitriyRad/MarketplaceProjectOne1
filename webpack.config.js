@@ -13,7 +13,7 @@ module.exports = {
             'localhost:8025'
         ],
         stats: 'errors-only',
-        clientLogLevel: 'error'
+        clientLogLevel: 'error',
     },
     module: {
         rules: [
@@ -30,6 +30,26 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.styl$/,
+                loader: ['style-loader', 'css-loader', 'stylus-loader', {
+                    loader: 'vuetify-loader',
+                    options: {
+                        theme: path.resolve('./node_modules/vuetify/src/stylus/theme.styl')
+                    }
+                }]
             }
         ]
     },
